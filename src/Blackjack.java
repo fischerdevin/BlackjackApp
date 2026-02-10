@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Blackjack {
     public static void main(String[] args) throws InterruptedException {
 
-        // For the pop up application
+        // For the pop-up application
         //Still deciding if i want to stay on terminal or move this way
         Frame frame = new Frame("Black Jack");
         Button hitBtn = new Button("Hit");
