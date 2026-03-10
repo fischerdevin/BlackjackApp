@@ -1,87 +1,131 @@
-# **Blackjack – Java AWT Application**
+# Blackjack (Java AWT) 
 
-## **Overview**
-This project is a Java‑based Blackjack game that combines a graphical user interface (GUI) built with **Java AWT** and a fully functional **terminal‑driven game engine**. It was created as a learning project to explore GUI layout management, event handling, card‑game logic, and multi‑deck shuffling.
-
-The application currently displays an AWT window with buttons for **Hit**, **Stand**, and **Double**, while the core gameplay—including betting, card dealing, and win/loss evaluation—runs in the terminal. Future updates may migrate more of the gameplay into the GUI.
+A desktop Blackjack game built with **Java AWT** featuring a casino-style felt table UI, Unicode card glyphs, bankroll tracking, and split-hand gameplay.
 
 ---
 
-## **Features**
-### **Gameplay**
-- Supports **2, 4, or 6 decks** of cards  
-- Implements **Fisher–Yates shuffle** for realistic randomization  
-- Handles:
-  - Player and dealer turns  
-  - Blackjack detection  
-  - Insurance and even‑money options  
-  - Double‑down logic  
-  - Soft 17 rules for the dealer  
-- Tracks a **bank account** starting at \$500  
-- Validates bets and prevents negative balances  
+## Features
 
-### **GUI (Java AWT)**
-- Main window titled **“Black Jack”**
-- Panels for:
-  - Dealer hand  
-  - Player hand  
-  - Action buttons  
-  - Bank display and messages  
-- Buttons included:
-  - **Hit**
-  - **Stand**
-  - **Double**
-- Layouts used:
-  - `BorderLayout`
-  - `GridLayout`
-  - `FlowLayout`
+* **Blackjack gameplay**
 
-The GUI is currently visual only; game actions still occur in the terminal.
+  * Hit / Stand / Double / Split
+  * Dealer plays to **17** (hits on **soft 17**)
+  * Blackjack pays **3:2** (1.5× bet)
+
+* **Splitting**
+
+  * Split up to **4 total hands**
+  * **Aces can only be split once** (tracked in code; split-ace hands auto-finish after receiving one card)
+
+* **Insurance / Even Money**
+
+  * If dealer shows an Ace, you can take **Insurance** (½ bet)
+  * If you have Blackjack vs dealer Ace, you can take **Even Money**
+
+* **Bank + Stats**
+
+  * Bankroll, wins, losses persist to `player.txt`
+
+* **UI**
+
+  * Green felt table
+  * Large card symbols (Unicode playing cards)
+  * Button colors:
+
+    * Hit = bright green
+    * Stand = red
+    * Double = yellow
+    * Split = light blue
+  * Message banner: **red background with white text**
 
 ---
 
-## **Project Structure**
-The primary class is:
+## Requirements
 
+* **Java 8+** (recommended: 11+)
+* Desktop OS (Windows / macOS / Linux) with a standard Java runtime
+
+---
+
+## How to Run
+
+### Option A: Terminal
+
+1. Save the file as:
+
+   * `Blackjack.java`
+
+2. Compile:
+
+   ```bash
+   javac Blackjack.java
+   ```
+
+3. Run:
+
+   ```bash
+   java Blackjack
+   ```
+
+### Option B: IDE
+
+* Open the project/folder in IntelliJ, Eclipse, or VS Code
+* Run the `Blackjack` class
+
+---
+
+## Player Save File (`player.txt`)
+
+The game reads and writes a file named `player.txt`.
+
+**Format:**
+
+```text
+username,bankAccount,wins,losses
 ```
-Blackjack.java
+
+**Example:**
+
+```text
+Player,500,3,2
 ```
 
-It contains:
-- The `main` method  
-- GUI setup  
-- Deck creation and shuffling  
-- Game loop  
-- Helper methods:
-  - `getHandValue()` – calculates hand totals with Ace handling  
-  - `isSoft17()` – determines if the dealer must hit  
-  - `setLabel()` – safely updates AWT labels on the event queue  
+If `player.txt` does not exist, the game starts with default values.
 
 ---
 
-## **How to Run**
-1. Ensure the file is inside a **src** folder marked as a **Sources Root** in IntelliJ.  
-2. Right‑click `Blackjack.java` → **Run 'Blackjack.main()'**  
-3. The AWT window will appear, and the terminal will prompt for:
-   - Number of decks  
-   - Bet amounts  
-   - Player decisions (hit, stand, double)  
+## Controls
+
+* **Play**: starts a hand using the bet amount
+* **Hit**: draw another card
+* **Stand**: end your current hand
+* **Double**: double your bet and draw exactly one card (only on first move)
+* **Split**: split into another hand (only on first move when both cards match)
 
 ---
 
-## **Future Improvements**
-- Move gameplay logic from terminal to GUI  
-- Display card graphics instead of text  
-- Add animations or transitions  
-- Implement chip denominations and betting UI  
-- Add sound effects or game history tracking  
+## Game Rules (Implementation Notes)
+
+* Dealer’s **hole card** is hidden until resolve
+* Dealer hits on **soft 17**
+* Shoe supports **2, 4, 6, or 8 decks**
+* Shoe reshuffles automatically when low (based on a 75% threshold)
+* Split hands are supported up to **4 total hands**
+* Split aces are restricted and auto-finish after receiving one card
 
 ---
 
-## **Purpose**
-This project serves as a hands‑on exploration of:
-- Java AWT GUI programming  
-- Event‑driven design  
-- Game logic implementation  
-- Data structures for card games  
-- Randomization and probability handling  
+## Notes / Tips
+
+* Unicode playing card glyphs may look different depending on your OS and font support
+* If the UI looks too big or too small, adjust the font sizes in `createCardLabel(...)`
+
+---
+
+## Future Improvements
+
+* Add a “New Player / Change Name” option in the UI
+* Add surrender, side bets, or configurable rules
+* Replace Unicode cards with image-based card assets
+* Add animations and sound effects
+
